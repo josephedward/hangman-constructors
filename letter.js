@@ -1,6 +1,6 @@
 var inquirer = require('inquirer'); //will need to use here? 
 const chalk = require('chalk');
-var figure=require("./figure.js");
+var figure=require("./figure");
 
 
 function Letter(char) {
