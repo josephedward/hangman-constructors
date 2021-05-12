@@ -1,55 +1,36 @@
-var Letter = require('./letter');
-var randomWord = require('random-word-by-length');
-const chalk = require('chalk');
+var Letter = require("./letter");
+var randomWord = require("random-word-by-length");
+const chalk = require("chalk");
 
 function Word(word) {
-    
-    this.letters=[];    
-
-        for(x of word.split(""))
-        {
-            this.letters.push(new Letter(x));//needs toString or charAt? 
-        }
-    
+  this.letters = [];
+  this.letters = word.split("").map((char) => new Letter(char));
+//   console.log(this.letters);
 }
 
-  Word.prototype.printWord=function(){
-    var blnk=" ";    
-    var displayWord=[];
-    for (x of this.letters)
-        {
-            displayWord.push(x.displayed());
-        }
-        // console.log(displayWord);
-        console.log(blnk.repeat(3)+chalk.inverse(displayWord.join("")));
+Word.prototype.printWord = function () {
+  var blnk = " ";
+  var displayWord = this.letters.map((char) => char.displayed());
+  console.log(displayWord);
+  console.log(blnk.repeat(3) + chalk.inverse(displayWord.join("")));
+};
+
+Word.prototype.guess = function (character) {
+  this.letters.forEach((element) => {
+    element.guess(character);
+  });
+  this.printWord();
+};
+
+Word.prototype.guessedCorrectly = function () {
+  for (x of this.letters) {
+    if (x.isVisible === true) {
+      continue;
+    } else {
+      return false;
     }
-
-
-    Word.prototype.guess=function(character){
-        for (x of this.letters)
-        {
-            x.guess(character);
-            
-        }
-        this.printWord();
-    }
-
-    
-    Word.prototype.guessedCorrectly=function(){
-        for(x of this.letters)
-        {
-            if(x.isVisible===true)
-            {continue;}
-            else{
-            return false;
-        }
-    }
-    return true;
-        
-    }
-
-
-
-
+  }
+  return true;
+};
 
 module.exports = Word;
